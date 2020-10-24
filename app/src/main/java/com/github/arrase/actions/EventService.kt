@@ -7,7 +7,7 @@ import android.os.IBinder
 import android.util.Log
 
 class EventService : Service() {
-    private val TAG = "ActionService"
+    private val logTAG = "ActionService"
 
     override fun onBind(intent: Intent): IBinder {
         TODO("Return the communication channel to the service.")
@@ -15,16 +15,16 @@ class EventService : Service() {
 
     override fun onCreate() {
         super.onCreate()
-        Log.d(TAG, "onCreate")
+        Log.d(logTAG, "onCreate")
     }
 
     override fun onDestroy() {
         super.onDestroy()
-        Log.d(TAG, "onDestroy")
+        Log.d(logTAG, "onDestroy")
     }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
-        Log.d(TAG, "onConfigurationChanged")
+        Log.d(logTAG, "onConfigurationChanged")
     }
 }
