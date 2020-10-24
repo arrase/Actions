@@ -34,9 +34,9 @@ class SettingsActivity : AppCompatActivity() {
                                 if (key == "svc_enabled") {
                                     Log.d("PREF_CHANGED", "${preference.key} : ${preference.isChecked}")
                                     if(preference.isChecked) {
-                                        TODO("Start service.")
+                                        Log.d("PREF_CHANGED","Start service.")
                                     } else {
-                                        TODO("Stop service.")
+                                        Log.d("PREF_CHANGED","Stop service.")
                                     }
                                 }
                             }
