@@ -1,5 +1,6 @@
 package com.github.arrase.actions
 
+import android.content.Intent
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener
 import android.os.Bundle
 import android.util.Log
@@ -35,8 +36,14 @@ class SettingsActivity : AppCompatActivity() {
                                     Log.d("PREF_CHANGED", "${preference.key} : ${preference.isChecked}")
                                     if(preference.isChecked) {
                                         Log.d("PREF_CHANGED","Start service.")
+                                        Intent(this.context, EventService::class.java).also { intent ->
+                                            activity?.startService(intent)
+                                        }
                                     } else {
                                         Log.d("PREF_CHANGED","Stop service.")
+                                        Intent(this.context, EventService::class.java).also { intent ->
+                                            activity?.stopService(intent)
+                                        }
                                     }
                                 }
                             }
