@@ -33,14 +33,13 @@ class SettingsActivity : AppCompatActivity() {
                         when (val preference = findPreference<Preference>(key)) {
                             is SwitchPreferenceCompat -> {
                                 if (key == "svc_enabled") {
-                                    Log.d("PREF_CHANGED", "${preference.key} : ${preference.isChecked}")
-                                    if(preference.isChecked) {
-                                        Log.d("PREF_CHANGED","Start service.")
+                                    if (preference.isChecked) {
+                                        Log.d("PREF_CHANGED", "Start service.")
                                         Intent(this.context, EventService::class.java).also { intent ->
                                             activity?.startService(intent)
                                         }
                                     } else {
-                                        Log.d("PREF_CHANGED","Stop service.")
+                                        Log.d("PREF_CHANGED", "Stop service.")
                                         Intent(this.context, EventService::class.java).also { intent ->
                                             activity?.stopService(intent)
                                         }
