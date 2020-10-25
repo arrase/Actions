@@ -1,12 +1,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="@string/svc_header">
+    <SwitchPreferenceCompat
+        android:id="@+id/svc_enabled"
+        app:key="svc_enabled"
+        app:title="@string/svc_enabled_title" />
 
-        <SwitchPreferenceCompat
-            android:id="@+id/svc_enabled"
-            app:key="svc_enabled"
-            app:title="@string/svc_enabled_title" />
+    <PreferenceCategory app:title="@string/headset_header">
+
 
     </PreferenceCategory>
 

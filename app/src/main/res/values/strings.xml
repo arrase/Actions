@@ -3,8 +3,10 @@
     <!-- Settings Activity Title -->
     <string name="title_activity_settings">Settings</string>
 
-    <!-- Preference Titles -->
-    <string name="svc_header">Service</string>
+    <!-- Service Titles -->
     <string name="svc_enabled_title">Enabled</string>
+
+    <!-- Headset Titles -->
+    <string name="headset_header">Headset</string>
 
 </resources>
