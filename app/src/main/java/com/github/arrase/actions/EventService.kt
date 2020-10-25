@@ -22,7 +22,7 @@ class EventService : Service() {
     private val mStateListener: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
-            mWakeLock?.acquire(10*60*1000L /*10 minutes*/)
+            mWakeLock?.acquire(10 * 60 * 1000L /*10 minutes*/)
             try {
                 when (action) {
                     BluetoothAdapter.ACTION_STATE_CHANGED -> if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {

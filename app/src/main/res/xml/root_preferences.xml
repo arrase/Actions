@@ -8,12 +8,6 @@
             app:key="svc_enabled"
             app:title="@string/svc_enabled_title" />
 
-        <SwitchPreferenceCompat
-            android:id="@+id/svc_run_on_boot"
-            app:key="svc_run_on_boot"
-            android:dependency="svc_enabled"
-            app:title="@string/svc_run_on_boot_title" />
-
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -6,6 +6,5 @@
     <!-- Preference Titles -->
     <string name="svc_header">Service</string>
     <string name="svc_enabled_title">Enabled</string>
-    <string name="svc_run_on_boot_title">Run on boot</string>
 
 </resources>
