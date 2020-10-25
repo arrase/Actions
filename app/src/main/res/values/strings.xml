@@ -8,5 +8,7 @@
 
     <!-- Headset Titles -->
     <string name="headset_header">Headset</string>
+    <string name="wired_events_threshold_title">Wired headset event threshold</string>
+    <string name="wired_events_threshold_summary">Ignore headset events if they are within threshold time</string>
 
 </resources>

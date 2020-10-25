@@ -6,8 +6,21 @@
         app:key="svc_enabled"
         app:title="@string/svc_enabled_title" />
 
-    <PreferenceCategory app:title="@string/headset_header">
+    <PreferenceCategory
+        app:dependency="svc_enabled"
+        app:title="@string/headset_header">
 
+        <SeekBarPreference
+            android:id="@+id/wired_events_threshold"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:defaultValue="0"
+            android:max="5"
+            app:key="wired_events_threshold"
+            app:min="2"
+            app:showSeekBarValue="true"
+            app:summary="@string/wired_events_threshold_summary"
+            app:title="@string/wired_events_threshold_title" />
 
     </PreferenceCategory>
 

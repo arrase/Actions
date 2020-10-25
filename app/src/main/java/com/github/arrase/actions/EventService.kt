@@ -18,11 +18,15 @@ import android.util.Log
 
 class EventService : Service() {
     private val logTAG = "ActionService"
+
     private var mWakeLock: WakeLock? = null
+    private var mWiredHeadsetConnected = false
+    private var mA2DPConnected = false
+
     private val mStateListener: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val action = intent.action
-            mWakeLock?.acquire(10 * 60 * 1000L /*10 minutes*/)
+            mWakeLock?.acquire(5 * 60 * 1000L) /*5 minutes*/
             try {
                 when (action) {
                     BluetoothAdapter.ACTION_STATE_CHANGED -> if (intent.getIntExtra(
@@ -37,18 +41,22 @@ class EventService : Service() {
                             BluetoothProfile.EXTRA_STATE,
                             BluetoothProfile.STATE_CONNECTED
                         )
-                        if (state == BluetoothProfile.STATE_CONNECTED) {
+                        if (state == BluetoothProfile.STATE_CONNECTED && !mA2DPConnected) {
                             Log.d(logTAG, "BluetoothProfile.STATE_CONNECTED = true")
+                            mA2DPConnected = true
                         } else {
                             Log.d(logTAG, "BluetoothProfile.STATE_CONNECTED = false")
+                            mA2DPConnected = false
                         }
                     }
                     AudioManager.ACTION_HEADSET_PLUG -> {
                         val useHeadset = intent.getIntExtra("state", 0) == 1
-                        if (useHeadset) {
+                        if (useHeadset && !mWiredHeadsetConnected) {
                             Log.d(logTAG, "AudioManager.ACTION_HEADSET_PLUG = true")
+                            mWiredHeadsetConnected = true
                         } else {
                             Log.d(logTAG, "AudioManager.ACTION_HEADSET_PLUG = false")
+                            mWiredHeadsetConnected = false
                         }
                     }
                 }
