@@ -25,12 +25,18 @@ class EventService : Service() {
             mWakeLock?.acquire(10 * 60 * 1000L /*10 minutes*/)
             try {
                 when (action) {
-                    BluetoothAdapter.ACTION_STATE_CHANGED -> if (intent.getIntExtra(BluetoothAdapter.EXTRA_STATE, -1) == BluetoothAdapter.STATE_OFF) {
+                    BluetoothAdapter.ACTION_STATE_CHANGED -> if (intent.getIntExtra(
+                            BluetoothAdapter.EXTRA_STATE,
+                            -1
+                        ) == BluetoothAdapter.STATE_OFF
+                    ) {
                         Log.d(logTAG, "BluetoothAdapter.ACTION_STATE_CHANGED")
                     }
                     BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED -> {
-                        val state = intent.getIntExtra(BluetoothProfile.EXTRA_STATE,
-                                BluetoothProfile.STATE_CONNECTED)
+                        val state = intent.getIntExtra(
+                            BluetoothProfile.EXTRA_STATE,
+                            BluetoothProfile.STATE_CONNECTED
+                        )
                         if (state == BluetoothProfile.STATE_CONNECTED) {
                             Log.d(logTAG, "BluetoothProfile.STATE_CONNECTED = true")
                         } else {
