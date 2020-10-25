@@ -4,10 +4,7 @@ import android.app.Service
 import android.bluetooth.BluetoothA2dp
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothProfile
-import android.content.BroadcastReceiver
-import android.content.Context
-import android.content.Intent
-import android.content.IntentFilter
+import android.content.*
 import android.content.res.Configuration
 import android.media.AudioManager
 import android.os.IBinder
@@ -22,6 +19,7 @@ class EventService : Service() {
     private var mWakeLock: WakeLock? = null
     private var mWiredHeadsetConnected = false
     private var mA2DPConnected = false
+    private var mLastUnplugEventTimestamp: Long = 0
 
     private val mStateListener: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -51,12 +49,25 @@ class EventService : Service() {
                     }
                     AudioManager.ACTION_HEADSET_PLUG -> {
                         val useHeadset = intent.getIntExtra("state", 0) == 1
+                        val threshold = getPrefs(context)?.getInt("wired_events_threshold", 0)
+
                         if (useHeadset && !mWiredHeadsetConnected) {
                             Log.d(logTAG, "AudioManager.ACTION_HEADSET_PLUG = true")
+                            if (mLastUnplugEventTimestamp.toInt() != 0) {
+                                if (threshold != null) {
+                                    if ((System.currentTimeMillis() - mLastUnplugEventTimestamp) < threshold.times(1000)) {
+                                        Log.d(logTAG,
+                                            "Ignore AudioManager.ACTION_HEADSET_PLUG = $useHeadset"
+                                        )
+                                        return
+                                    }
+                                }
+                            }
                             mWiredHeadsetConnected = true
                         } else {
                             Log.d(logTAG, "AudioManager.ACTION_HEADSET_PLUG = false")
                             mWiredHeadsetConnected = false
+                            mLastUnplugEventTimestamp = System.currentTimeMillis()
                         }
                     }
                 }
@@ -106,5 +117,12 @@ class EventService : Service() {
         } catch (e: Exception) {
             Log.e(logTAG, "unregisterListener", e)
         }
+    }
+
+    private fun getPrefs(context: Context): SharedPreferences? {
+        return context.getSharedPreferences(
+            "actions_service_settings",
+            MODE_PRIVATE
+        )
     }
 }
