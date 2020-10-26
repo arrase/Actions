@@ -6,8 +6,13 @@
     <!-- Service Titles -->
     <string name="svc_enabled_title">Enabled</string>
 
+    <!-- A2DP Titles -->
+    <string name="a2dp_header">Bluetooth A2DP</string>
+    <string name="a2dp_enabled_title">Enabled</string>
+
     <!-- Headset Titles -->
     <string name="headset_header">Headset</string>
+    <string name="headset_enabled_title">Enabled</string>
     <string name="wired_events_threshold_title">Wired headset event threshold</string>
     <string name="wired_events_threshold_summary">Ignore headset events if they are within threshold time</string>
 
