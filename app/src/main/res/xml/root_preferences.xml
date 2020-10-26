@@ -42,4 +42,31 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:key="category_app_chooser"
+        android:title="@string/category_app_chooser_title"
+        app:dependency="svc_enabled">
+
+        <SwitchPreferenceCompat
+            android:defaultValue="true"
+            android:key="autorun_single_app"
+            android:summary="@string/autorun_single_app_summary"
+            android:title="@string/autorun_single_app_title" />
+
+        <SeekBarPreference
+            android:defaultValue="5"
+            android:key="app_chooser_timeout"
+            android:max="60"
+            android:title="@string/app_chooser_timeout_title"
+            app:min="0"
+            app:showSeekBarValue="true" />
+
+        <ListPreference
+            android:entries="@array/app_chooser_position_entries"
+            android:entryValues="@array/app_chooser_position_values"
+            android:key="app_chooser_position"
+            android:title="@string/app_chooser_position_title" />
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

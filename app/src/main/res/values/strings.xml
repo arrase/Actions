@@ -16,4 +16,13 @@
     <string name="wired_events_threshold_title">Wired headset event threshold</string>
     <string name="wired_events_threshold_summary">Ignore headset events if they are within threshold time</string>
 
+    <!-- App Chooser Titles -->
+    <string name="category_app_chooser_title">Application chooser</string>
+    <string name="app_chooser_left">Left</string>
+    <string name="app_chooser_right">Right</string>
+    <string name="app_chooser_timeout_title">App chooser dialog timeout</string>
+    <string name="app_chooser_position_title">App chooser dialog position</string>
+    <string name="autorun_single_app_title">Autorun single app</string>
+    <string name="autorun_single_app_summary">Don\'t show app selection dialog</string>
+
 </resources>
