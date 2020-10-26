@@ -15,7 +15,7 @@ class BootCompletedReceiver : BroadcastReceiver() {
             val prefs: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
             if (prefs.getBoolean("svc_enabled", false)) {
                 Log.d(logTAG, "onReceive " + intent.action)
-                context.startService(Intent(context, EventService::class.java))
+                context.startForegroundService(Intent(context, EventService::class.java))
             }
         } catch (e: Exception) {
             Log.e(logTAG, "Can't start actions service", e)

@@ -1,16 +1,21 @@
 package com.github.arrase.actions
 
+import android.app.Notification
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.Service
 import android.bluetooth.BluetoothA2dp
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothProfile
 import android.content.*
 import android.content.res.Configuration
+import android.graphics.Color
 import android.media.AudioManager
 import android.os.IBinder
 import android.os.PowerManager
 import android.os.PowerManager.WakeLock
 import android.util.Log
+import androidx.core.app.NotificationCompat
 
 
 class EventService : Service() {
@@ -55,8 +60,12 @@ class EventService : Service() {
                             Log.d(logTAG, "AudioManager.ACTION_HEADSET_PLUG = true")
                             if (mLastUnplugEventTimestamp.toInt() != 0) {
                                 if (threshold != null) {
-                                    if ((System.currentTimeMillis() - mLastUnplugEventTimestamp) < threshold.times(1000)) {
-                                        Log.d(logTAG,
+                                    if ((System.currentTimeMillis() - mLastUnplugEventTimestamp) < threshold.times(
+                                            1000
+                                        )
+                                    ) {
+                                        Log.d(
+                                            logTAG,
                                             "Ignore AudioManager.ACTION_HEADSET_PLUG = $useHeadset"
                                         )
                                         return
@@ -77,8 +86,8 @@ class EventService : Service() {
         }
     }
 
-    override fun onBind(intent: Intent): IBinder {
-        TODO("Return the communication channel to the service.")
+    override fun onBind(intent: Intent): IBinder? {
+        return null
     }
 
     override fun onCreate() {
@@ -87,6 +96,7 @@ class EventService : Service() {
         val pm = getSystemService(POWER_SERVICE) as PowerManager
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, logTAG)
         // mWakeLock.setReferenceCounted(true)
+        startMyOwnForeground()
         registerListener()
     }
 
@@ -124,5 +134,26 @@ class EventService : Service() {
             "actions_service_settings",
             MODE_PRIVATE
         )
+    }
+
+    private fun startMyOwnForeground() {
+        val NOTIFICATION_CHANNEL_ID = "example.permanence"
+        val channelName = "Background Service"
+        val chan = NotificationChannel(
+            NOTIFICATION_CHANNEL_ID,
+            channelName,
+            NotificationManager.IMPORTANCE_NONE
+        )
+        chan.lightColor = Color.BLUE
+        chan.lockscreenVisibility = Notification.VISIBILITY_PRIVATE
+        val manager = (getSystemService(NOTIFICATION_SERVICE) as NotificationManager)
+        manager.createNotificationChannel(chan)
+        val notificationBuilder = NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+        val notification = notificationBuilder.setOngoing(true)
+            .setContentTitle("App is running in background")
+            .setPriority(NotificationManager.IMPORTANCE_MIN)
+            .setCategory(Notification.CATEGORY_SERVICE)
+            .build()
+        startForeground(2, notification)
     }
 }
