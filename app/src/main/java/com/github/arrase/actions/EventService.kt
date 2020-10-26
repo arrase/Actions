@@ -16,6 +16,7 @@ import android.os.PowerManager
 import android.os.PowerManager.WakeLock
 import android.util.Log
 import androidx.core.app.NotificationCompat
+import androidx.preference.PreferenceManager
 
 
 class EventService : Service() {
@@ -25,6 +26,7 @@ class EventService : Service() {
     private var mWiredHeadsetConnected = false
     private var mA2DPConnected = false
     private var mLastUnplugEventTimestamp: Long = 0
+    private var mPrefs: SharedPreferences? = null
 
     private val mStateListener: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
@@ -38,6 +40,7 @@ class EventService : Service() {
                         ) == BluetoothAdapter.STATE_OFF
                     ) {
                         Log.d(logTAG, "BluetoothAdapter.ACTION_STATE_CHANGED")
+                        mA2DPConnected = false
                     }
                     BluetoothA2dp.ACTION_CONNECTION_STATE_CHANGED -> {
                         val state = intent.getIntExtra(
@@ -54,7 +57,8 @@ class EventService : Service() {
                     }
                     AudioManager.ACTION_HEADSET_PLUG -> {
                         val useHeadset = intent.getIntExtra("state", 0) == 1
-                        val threshold = getPrefs(context)?.getInt("wired_events_threshold", 0)
+                        val threshold = mPrefs?.getInt("wired_events_threshold", 0)
+                        Log.d(logTAG, "threshold = $threshold")
 
                         if (useHeadset && !mWiredHeadsetConnected) {
                             Log.d(logTAG, "AudioManager.ACTION_HEADSET_PLUG = true")
@@ -96,6 +100,7 @@ class EventService : Service() {
         val pm = getSystemService(POWER_SERVICE) as PowerManager
         mWakeLock = pm.newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, logTAG)
         // mWakeLock.setReferenceCounted(true)
+        mPrefs = PreferenceManager.getDefaultSharedPreferences(this)
         startMyOwnForeground()
         registerListener()
     }
@@ -127,13 +132,6 @@ class EventService : Service() {
         } catch (e: Exception) {
             Log.e(logTAG, "unregisterListener", e)
         }
-    }
-
-    private fun getPrefs(context: Context): SharedPreferences? {
-        return context.getSharedPreferences(
-            "actions_service_settings",
-            MODE_PRIVATE
-        )
     }
 
     private fun startMyOwnForeground() {
