@@ -9,10 +9,17 @@
 
     <PreferenceCategory
         app:dependency="svc_enabled"
-        app:title="@string/headset_header">
+        app:title="@string/media_header">
+
+        <SwitchPreferenceCompat
+            android:id="@+id/a2dp_enabled"
+            android:defaultValue="true"
+            app:key="a2dp_enabled"
+            app:title="@string/a2dp_enabled_title" />
 
         <SwitchPreferenceCompat
             android:id="@+id/headset_enabled"
+            android:defaultValue="true"
             app:key="headset_enabled"
             app:title="@string/headset_enabled_title" />
 
@@ -28,17 +35,6 @@
             app:showSeekBarValue="true"
             app:summary="@string/wired_events_threshold_summary"
             app:title="@string/wired_events_threshold_title" />
-
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        app:dependency="svc_enabled"
-        app:title="@string/a2dp_header">
-
-        <SwitchPreferenceCompat
-            android:id="@+id/a2dp_enabled"
-            app:key="a2dp_enabled"
-            app:title="@string/a2dp_enabled_title" />
 
     </PreferenceCategory>
 
