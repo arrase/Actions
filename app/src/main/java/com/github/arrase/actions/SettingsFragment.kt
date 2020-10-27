@@ -4,6 +4,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
 import android.util.Log
+import androidx.preference.ListPreference
 import androidx.preference.Preference
 import androidx.preference.PreferenceFragmentCompat
 import androidx.preference.SwitchPreferenceCompat
@@ -15,6 +16,9 @@ class SettingsFragment : PreferenceFragmentCompat() {
 
     override fun onCreatePreferences(savedInstanceState: Bundle?, rootKey: String?) {
         setPreferencesFromResource(R.xml.root_preferences, rootKey)
+        val appchooserposition: ListPreference? = findPreference("app_chooser_position")
+        appchooserposition?.summaryProvider = ListPreference.SimpleSummaryProvider.getInstance()
+
         preferenceChangeListener =
             SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
                 when (val preference = findPreference<Preference>(key)) {
